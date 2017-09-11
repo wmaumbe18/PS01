@@ -1,7 +1,7 @@
 ---
 title: "STAT/MATH 495: Problem Set 01"
-author: "WRITE YOUR NAME HERE"
-date: "`r format(Sys.time(), '%B %d, %Y')`"
+author: "Wayne Maumbe"
+date: "2017-09-07"
 output:
   html_document:
     toc: true
@@ -17,5 +17,19 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=4.5)
 # Load packages
 library(tidyverse)
 ```
+```{r}
+#Load in the dataset
+train <- read_csv("https://rudeboybert.github.io/STAT495/static/Titanic/train.csv")
+test <- read_csv("https://rudeboybert.github.io/STAT495/static/Titanic/test.csv")
+```
 
+```{r}
+testing<-mutate(test, Survived=NA) #add empty variable to test data and rename new dataset
+  for(i in 1:418){ #apply following changes to each row
+    if ((testing$Sex[i]=='female' && testing$SibSp[i] >=1) || testing$Pclass[i]==1 ){#  set conditions for the following change
+  testing$Survived[i]=as.integer('1')# if condition is met set Survived as 1
+  }else testing$Survived[i]=as.integer('0')}# if not set Survived to 0
+submit<-select(testing, PassengerId, Survived) # makes dataset with the choosen variables 
+write.csv(submit, "PS01submission.csv") #downloads dataset
 
+```
